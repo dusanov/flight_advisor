@@ -1,13 +1,7 @@
-DROP TABLE IF EXISTS billionaires;
- 
-CREATE TABLE billionaires (
-  id INT AUTO_INCREMENT  PRIMARY KEY,
-  first_name VARCHAR(250) NOT NULL,
-  last_name VARCHAR(250) NOT NULL,
-  career VARCHAR(250) DEFAULT NULL
-);
- 
-INSERT INTO billionaires (first_name, last_name, career) VALUES
-  ('Aliko', 'Dangote', 'Billionaire Industrialist'),
-  ('Bill', 'Gates', 'Billionaire Tech Entrepreneur'),
-  ('Folrunsho', 'Alakija', 'Billionaire Oil Magnate');
+insert into User (username, first_name, last_name, hashpwd, is_admin) values
+	('admin','admin','admin','admin',1),
+	('user','user','user','user',0);
+	
+insert into City (id, name, country, description) values
+	('10000','novi sad','serbia','panonian little shittown'),
+	('10001','el calafate','argentina','patagonian little shittown');
