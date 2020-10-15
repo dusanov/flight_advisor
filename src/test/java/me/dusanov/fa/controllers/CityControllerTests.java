@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 @SpringBootTest
 public class CityControllerTests {
 
@@ -65,5 +68,19 @@ public class CityControllerTests {
 	                .andExpect(notok);
 
     }    
+    
+    @Test
+    public void testSearch() throws Exception {
+    	ResultMatcher ok = MockMvcResultMatchers.status()
+                .isOk();
+    	
+    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/api/cities/search/el cal")
+    												/*.contentType(MediaType.APPLICATION_JSON) 
+									                .content("")*/;
+    	
+    	this.mockMvc.perform(builder)
+    				.andExpect(ok)
+    				.andExpect(jsonPath("$[0].name", containsString("el calafate")));
+    }
 	
 }
