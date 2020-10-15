@@ -1,5 +1,6 @@
 package me.dusanov.fa.domains;
 
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import javax.persistence.Entity;
@@ -25,18 +26,25 @@ public class Airport {
 	Longitude, Decimal degrees, usually to six significant digits.
 	Altitude, In feet.
 	Timezone, Hours offset from UTC.
+	DST, Daylight savings time. One of E (Europe), A (US/Canada), S (South America), O (Australia), Z (New Zealand), N (None) or U (Unknown).
+	Tz database time zone, Timezone in "tz" (Olson) format, eg. "America/Los_Angeles".
+	Type, Type of the airport.
+	Source. Source of this data.
 	*/
 	@Id
 	private Long airportId;
 	private String name;
-	//TODO map this
-	private Long cityId;
-	//TODO this should come from the city
+	//Don’t import airports and routes if the city doesn’t exist.
+	private String city;
 	private String country;
 	private String iata;
 	private String icao;
 	private double latitude;
 	private double longitude;
 	private int altitude;
-	private ZoneOffset timezone;	
+	private ZoneOffset timezone;
+	private char dst;
+	private ZoneId tz;
+	private String type;
+	private String source;
 }

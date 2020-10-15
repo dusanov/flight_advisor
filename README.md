@@ -9,6 +9,7 @@ Dist folder contains latest build (if i didn't forget to copy the jar)
 mvn clean package spring-boot:run
 ```
 or to run precompiled build (no maven)
+
 ```bash
 java -jar dist/flight-advisor-0.0.1-SNAPSHOT.jar
 ```
@@ -23,3 +24,13 @@ java -jar dist/flight-advisor-0.0.1-SNAPSHOT.jar
 &nbsp;&nbsp;8. search for the city name (x comments)<br />
 &nbsp;&nbsp;9. add/edit/delete(just a flag) a comment for the city (created / modified date)<br />
 &nbsp;&nbsp;10. search for the cheapest path from A to B (multiple routes) <br />
+
+## Example datasets 
+### Airports
+```bash
+todo,todo,todooo
+```
+### Routes
+```bash
+todo,todo,todooo
+```
