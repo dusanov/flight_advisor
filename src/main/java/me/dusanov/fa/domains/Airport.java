@@ -1,7 +1,6 @@
 package me.dusanov.fa.domains;
 
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,7 +28,7 @@ public class Airport {
 	DST, Daylight savings time. One of E (Europe), A (US/Canada), S (South America), O (Australia), Z (New Zealand), N (None) or U (Unknown).
 	Tz database time zone, Timezone in "tz" (Olson) format, eg. "America/Los_Angeles".
 	Type, Type of the airport.
-	Source. Source of this data.
+	Source, Source of this data.
 	*/
 	@Id
 	private Long airportId;
@@ -42,7 +41,7 @@ public class Airport {
 	private double latitude;
 	private double longitude;
 	private int altitude;
-	private ZoneOffset timezone;
+	private /*ZoneOffset*/ int timezone;
 	private char dst;
 	private ZoneId tz;
 	private String type;
