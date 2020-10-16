@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -22,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import me.dusanov.fa.domains.Route;
+import me.dusanov.fa.dtos.ImportResult;
+import me.dusanov.fa.services.CsvMapperService;
+import me.dusanov.fa.services.FileSystemStorageService;
 import me.dusanov.fa.services.RouteService;
 
 @RestController
@@ -30,6 +34,8 @@ import me.dusanov.fa.services.RouteService;
 public class RouteController {
 
 	private final RouteService routeService;
+	private final FileSystemStorageService storageService;
+	private final CsvMapperService csvMapper;
 	
 	@PostMapping
 	public ResponseEntity<Route> addNewRoute(@Valid @RequestBody Route route) {
@@ -42,7 +48,15 @@ public class RouteController {
 	}
 	
 	@PostMapping("/import")
-	public void uploadFile(@RequestParam("file") MultipartFile file) {}	
+	public ImportResult<Route> uploadFile(@RequestParam("file") MultipartFile file,
+			@RequestParam(defaultValue = "false", required = false) boolean validateCity) 
+	throws Exception {
+		
+		Resource fileResource = storageService.loadAsResource(storageService.store(file));
+		List<Route> routes = csvMapper.loadObjectList(Route.class, fileResource);
+		
+		return routeService.importRoutes(routes, validateCity);
+	}	
 	
 	@GetMapping("/search")
 	public List<Route> search(@RequestParam String src, @RequestParam String dest){

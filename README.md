@@ -49,7 +49,7 @@ airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,t
 Header for routes:<br />
 
 ```bash
-todo
+airline,airlineId,sourceAirport,sourceAirportId,destinationAirport,destinationAirportId,codeshare,stops,equipment
 ```
 
 ```bash
@@ -59,3 +59,5 @@ todo
 2B,410,CEK,2968,KZN,2990,,0,CR2
 2B,410,CEK,2968,OVB,4078,,0,CR2
 ```
+### City validation request param
+todo

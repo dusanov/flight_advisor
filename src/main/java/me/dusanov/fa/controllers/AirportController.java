@@ -52,7 +52,6 @@ public class AirportController {
 		List<Airport> airports = csvMapper.loadObjectList(Airport.class, fileResource);
 	
 		return airportService.importAirports(airports, validateCity);
-		
 	}	
 	
 	@GetMapping("/search/{airportName}")

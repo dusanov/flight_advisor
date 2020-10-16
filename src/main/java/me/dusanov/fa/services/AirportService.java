@@ -35,6 +35,14 @@ public class AirportService {
 		return airportRepo.findByNameContaining(airportName);
 	}
 	
+	public Airport searchByIcao(String icao) {
+		return airportRepo.findByIcao(icao);
+	}
+	
+	public Airport searchByIata(String iata) {
+		return airportRepo.findByIata(iata);
+	}
+	
 	public ImportResult<Airport> importAirports(List<Airport> airports, boolean validateCity){
 		
 		int count = 0;

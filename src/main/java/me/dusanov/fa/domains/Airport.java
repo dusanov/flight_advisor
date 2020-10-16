@@ -40,8 +40,8 @@ public class Airport {
 	private String icao;
 	private double latitude;
 	private double longitude;
-	private int altitude;
-	private /*ZoneOffset*/ int timezone;
+	private double altitude;
+	private /*ZoneOffset*/ double timezone;
 	private char dst;
 	private ZoneId tz;
 	private String type;

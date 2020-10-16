@@ -10,4 +10,6 @@ import me.dusanov.fa.domains.Airport;
 @Repository
 public interface AirportRepo extends CrudRepository<Airport, Long> {
 	List<Airport> findByNameContaining(String name);
+	Airport findByIcao(String icao);
+	Airport findByIata(String iata);
 }

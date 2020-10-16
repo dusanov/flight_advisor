@@ -24,6 +24,7 @@ public class CsvMapperService {
 	        		mapper.readerFor(type).with(bootstrapSchema).readValues(fileResource.getFile());
 	        return readValues.readAll();
 	    } catch (Exception e) {
+	    	//TODO: this needs better handling
 	    	System.out.println(e);
 	        //logger.error("Error occurred while loading object list from file " + fileName, e);
 	        return Collections.emptyList();
