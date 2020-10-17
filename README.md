@@ -60,4 +60,4 @@ airline,airlineId,sourceAirport,sourceAirportId,destinationAirport,destinationAi
 2B,410,CEK,2968,OVB,4078,,0,CR2
 ```
 ### City validation request param
-validation during import of airports and routes on the existance of the city record can be turned off by passing query param validateCity=false
+validation during import of airports and routes on the existance of the city record can be turned off by passing query param `validateCity=false`
