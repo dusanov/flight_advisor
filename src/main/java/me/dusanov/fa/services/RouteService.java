@@ -33,11 +33,6 @@ public class RouteService {
 		return (List<Route>) routeRepo.findAll();
 	}
 	
-	public List<Route> search(String source, String destination){
-		//TODO
-		return null;
-	}
-	
 	public ImportResult<Route> importRoutes(List<Route> routes, boolean validateCity) {
 		
 		int count = 0;

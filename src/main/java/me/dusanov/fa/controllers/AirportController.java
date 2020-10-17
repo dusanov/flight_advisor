@@ -45,9 +45,9 @@ public class AirportController {
 	
 	@PostMapping("/import")
 	public ImportResult<Airport> uploadFile(@RequestParam("file") MultipartFile file,
-									@RequestParam(defaultValue = "false", required = false) boolean validateCity) 
+											@RequestParam(defaultValue = "false", required = false) boolean validateCity) 
 	throws Exception {
-	
+		//TODO: validate!
 		Resource fileResource = storageService.loadAsResource(storageService.store(file));
 		List<Airport> airports = csvMapper.loadObjectList(Airport.class, fileResource);
 	

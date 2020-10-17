@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import me.dusanov.fa.domains.Route;
+import me.dusanov.fa.domains.RoutesView;
 import me.dusanov.fa.dtos.ImportResult;
 import me.dusanov.fa.services.CsvMapperService;
 import me.dusanov.fa.services.FileSystemStorageService;
 import me.dusanov.fa.services.RouteService;
+import me.dusanov.fa.services.RoutesViewService;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +39,7 @@ public class RouteController {
 	private final RouteService routeService;
 	private final FileSystemStorageService storageService;
 	private final CsvMapperService csvMapper;
+	private final RoutesViewService routesViewService;
 	
 	@PostMapping
 	public ResponseEntity<Route> addNewRoute(@Valid @RequestBody Route route) {
@@ -58,9 +62,9 @@ public class RouteController {
 		return routeService.importRoutes(routes, validateCity);
 	}	
 	
-	@GetMapping("/search")
-	public List<Route> search(@RequestParam String src, @RequestParam String dest){
-		return routeService.search(src,dest);
+	@GetMapping("/search/{source}/{destination}")
+	public List<RoutesView> search(@PathVariable String source, @PathVariable String destination){
+		return routesViewService.findTheCheapestRoute(source,destination);
 	}	
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
