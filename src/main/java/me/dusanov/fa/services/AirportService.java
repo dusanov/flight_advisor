@@ -50,7 +50,7 @@ public class AirportService {
 		
 		for (Airport airport : airports) {
 			if (validateCity) {
-				if (cityService.searchByCityName(airport.getCity()).size() > 0) {
+				if ( !airport.getCity().equals("") && cityService.searchByCityName(airport.getCity()).size() > 0) {
 					airportRepo.save(airport);
 					count++;
 				} else 
