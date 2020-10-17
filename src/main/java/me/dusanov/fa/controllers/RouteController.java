@@ -53,7 +53,7 @@ public class RouteController {
 	
 	@PostMapping("/import")
 	public ImportResult<Route> uploadFile(@RequestParam("file") MultipartFile file,
-			@RequestParam(defaultValue = "false", required = false) boolean validateCity) 
+			@RequestParam(defaultValue = "true", required = false) boolean validateCity) 
 	throws Exception {
 		
 		Resource fileResource = storageService.loadAsResource(storageService.store(file));
