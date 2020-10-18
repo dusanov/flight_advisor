@@ -10,4 +10,5 @@ import me.dusanov.fa.domains.City;
 @Repository
 public interface CityRepo extends CrudRepository<City, Long> {
 	List<City> findByNameContaining(String name);
+	List<City> findByNameAndCountry(String name,String country);
 }

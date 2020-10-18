@@ -29,7 +29,7 @@ public class CityServiceTests {
 	
 	@Test
 	public void testGetAllCities() {
-		assertEquals(2,cityService.getAll().size());
+		assertEquals(7,cityService.getAll().size());
 	}
 	
 	@Test

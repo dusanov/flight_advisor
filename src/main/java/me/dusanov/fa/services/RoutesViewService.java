@@ -20,4 +20,12 @@ public class RoutesViewService {
 		
 		return routes;
 	}
+	
+	public List<RoutesView> getAllRoutes(){
+		return (List<RoutesView>) routesViewRepo.findAll();
+	}
+	
+	public List<RoutesView> getAllBySource(String source){
+		return routesViewRepo.findBySource(source);
+	}
 }
