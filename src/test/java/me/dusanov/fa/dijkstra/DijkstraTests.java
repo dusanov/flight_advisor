@@ -45,11 +45,11 @@ public class DijkstraTests {
 			assertNotNull(bgGraph);
 			assertEquals(900.20d,  bgGraph.getNodes().get("Santiago").getPrice().doubleValue());		
 			
-			System.out.println("Cheapest path from Belgrado to Santiago: \n" + bgGraph.getNodes().get("Santiago").getShortestPath()); 
+			System.out.println("Cheapest path from Belgrado to Santiago: \n" + bgGraph.getNodes().get("Santiago").getCheapestPath()); 
 			System.out.println("Price: " + bgGraph.getNodes().get("Santiago").getPrice());
 
 			assertEquals(1020.20d,  bgGraph.getNodes().get("Punta Arenas").getPrice().doubleValue());
-			System.out.println("Cheapest path from Belgrado to Punta Arenas: \n" + bgGraph.getNodes().get("Punta Arenas").getShortestPath()); 
+			System.out.println("Cheapest path from Belgrado to Punta Arenas: \n" + bgGraph.getNodes().get("Punta Arenas").getCheapestPath()); 
 			System.out.println("Price: " + bgGraph.getNodes().get("Punta Arenas").getPrice());
 			
 		} catch (Exception e) {

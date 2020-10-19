@@ -24,8 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import me.dusanov.fa.domains.Route;
-import me.dusanov.fa.domains.RoutesView;
 import me.dusanov.fa.dtos.ImportResult;
+import me.dusanov.fa.dtos.SearchResult;
 import me.dusanov.fa.services.CsvMapperService;
 import me.dusanov.fa.services.FileSystemStorageService;
 import me.dusanov.fa.services.RouteService;
@@ -63,7 +63,7 @@ public class RouteController {
 	}	
 	
 	@GetMapping("/search/{source}/{destination}")
-	public List<RoutesView> search(@PathVariable String source, @PathVariable String destination){
+	public SearchResult search(@PathVariable String source, @PathVariable String destination){
 		return routesViewService.findTheCheapestRoute(source,destination);
 	}	
 	

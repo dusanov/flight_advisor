@@ -7,12 +7,12 @@ import java.util.Map;
 
 //@Data
 //@Getter @Setter @RequiredArgsConstructor @ToString
-//No lombok here, screws up hashset
-//ToString actually
+//No lombok here, screws up hashset and bombs StackOverflow
+//hashmap ToString actually does it
 public class Node {
 
     private String name;
-    private LinkedList<Node> shortestPath = new LinkedList<>();
+    private LinkedList<Node> cheapestPath = new LinkedList<>();
     private BigDecimal price = BigDecimal.valueOf(Integer.MAX_VALUE);
     private Map<Node, BigDecimal> destinationNodes = new HashMap<>();
 
@@ -32,12 +32,12 @@ public class Node {
 		this.name = name;
 	}
 
-	public LinkedList<Node> getShortestPath() {
-		return shortestPath;
+	public LinkedList<Node> getCheapestPath() {
+		return cheapestPath;
 	}
 
-	public void setShortestPath(LinkedList<Node> shortestPath) {
-		this.shortestPath = shortestPath;
+	public void setCheapestPath(LinkedList<Node> shortestPath) {
+		this.cheapestPath = shortestPath;
 	}
 
 	public BigDecimal getPrice() {
@@ -61,8 +61,8 @@ public class Node {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Node [name=");
 		builder.append(name);
-		builder.append(", shortestPath=");
-		builder.append(shortestPath);
+		builder.append(", cheapestPath=");
+		builder.append(cheapestPath);
 		builder.append(", price=");
 		builder.append(price);
 	//	builder.append(", destinationNodes=");
@@ -70,20 +70,4 @@ public class Node {
 		builder.append("]");
 		return builder.toString();
 	}
-
-	/*
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Node [name=");
-		builder.append(name);
-		builder.append(", price=");
-		builder.append(price);
-		builder.append("]");
-		return builder.toString();
-	}
-	*/
-	
-	
-	
 }
