@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import lombok.RequiredArgsConstructor;
+import me.dusanov.fa.GraphComponent;
 import me.dusanov.fa.domains.Airport;
 import me.dusanov.fa.domains.Route;
 import me.dusanov.fa.dtos.ImportResult;
@@ -24,6 +25,7 @@ public class RouteService {
 	private final CityService cityService;
 	private final AirportService airportService;
 	private final RouteRepo routeRepo;
+	private final GraphComponent graph;
 	
 	public Route addRoute(@Valid Route route) {
 		return routeRepo.save(route);
@@ -34,6 +36,9 @@ public class RouteService {
 	}
 	
 	public ImportResult<Route> importRoutes(List<Route> routes, boolean validateCity) {
+		
+		//delete all routes first, routes do not have id
+		routeRepo.deleteAll();
 		
 		int count = 0;
 		List<Route> failed = new ArrayList<Route>();
@@ -77,6 +82,9 @@ public class RouteService {
 				count++;
 			}
 		}
+		
+		//reload graph
+		graph.loadGraph();
 
 		return new ImportResult<Route>(count,failed);		
 		

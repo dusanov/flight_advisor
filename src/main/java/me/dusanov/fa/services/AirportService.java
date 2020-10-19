@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import lombok.RequiredArgsConstructor;
+import me.dusanov.fa.GraphComponent;
 import me.dusanov.fa.domains.Airport;
 import me.dusanov.fa.dtos.ImportResult;
 import me.dusanov.fa.repos.AirportRepo;
@@ -22,6 +23,7 @@ public class AirportService {
 	
 	private final CityService cityService;
 	private final AirportRepo airportRepo;
+	private final GraphComponent graph;
 	
 	public Airport addAirport(@Valid Airport airport) {
 		return airportRepo.save(airport);
@@ -45,6 +47,8 @@ public class AirportService {
 	
 	public ImportResult<Airport> importAirports(List<Airport> airports, boolean validateCity){
 		
+		// we wont be deleting airoprts first, since dataset has id and H2 is smart enough
+		
 		int count = 0;
 		List<Airport> failed = new ArrayList<Airport>();
 		
@@ -60,7 +64,10 @@ public class AirportService {
 				count++;
 			}
 		}
-
+		
+		//reload nodes
+		graph.loadNodes();
+		
 		return new ImportResult<Airport>(count,failed);
 		
 	}

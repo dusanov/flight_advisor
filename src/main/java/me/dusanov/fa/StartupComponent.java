@@ -7,16 +7,14 @@ import java.nio.file.Paths;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
 import me.dusanov.fa.configs.StorageProperties;
 
 @Component
+@RequiredArgsConstructor
 public class StartupComponent implements CommandLineRunner {
 
 	private final StorageProperties storageProps;
-	
-	public StartupComponent (StorageProperties storageProps){
-		this.storageProps = storageProps;
-	}
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -27,8 +25,7 @@ public class StartupComponent implements CommandLineRunner {
 		}
 		catch (IOException e) {
 			throw new Exception("Could not initialize storage", e);
-		}		
-
+		}	
 	}
 
 }

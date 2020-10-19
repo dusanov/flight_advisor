@@ -8,6 +8,7 @@ import java.util.Map;
 //@Data
 //@Getter @Setter @RequiredArgsConstructor @ToString
 //No lombok here, screws up hashset
+//ToString actually
 public class Node {
 
     private String name;
@@ -60,10 +61,29 @@ public class Node {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Node [name=");
 		builder.append(name);
+		builder.append(", shortestPath=");
+		builder.append(shortestPath);
+		builder.append(", price=");
+		builder.append(price);
+	//	builder.append(", destinationNodes=");
+	//	builder.append(destinationNodes);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	/*
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Node [name=");
+		builder.append(name);
 		builder.append(", price=");
 		builder.append(price);
 		builder.append("]");
 		return builder.toString();
 	}
+	*/
+	
+	
 	
 }

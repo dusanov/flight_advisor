@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Dijkstra {
 
-    public static Graph calculateShortestPathFromSource(Graph graph, Node source) {
+    public static Graph calculateCheapestPathFromSource(Graph graph, Node source) {
 
         source.setPrice(BigDecimal.ZERO);
 
@@ -20,13 +20,13 @@ public class Dijkstra {
         unsettledNodes.add(source);
 
         while (unsettledNodes.size() != 0) {
-            Node currentNode = getLowestDistanceNode(unsettledNodes);
+            Node currentNode = getCheapestNode(unsettledNodes);
             unsettledNodes.remove(currentNode);            
             for (Entry<Node, BigDecimal> destinationPair : currentNode.getAdjacentNodes().entrySet()) {
                 Node destinationNode = destinationPair.getKey();
                 BigDecimal price = destinationPair.getValue();
                 if (!settledNodes.contains(destinationNode)) {
-                    calculateMinimumDistance(destinationNode, price, currentNode);
+                    calculateMinimumPrice(destinationNode, price, currentNode);
                     unsettledNodes.add(destinationNode);
                 }
             }
@@ -35,17 +35,19 @@ public class Dijkstra {
         return graph;
     }
 
-    private static void calculateMinimumDistance(Node evaluationNode, BigDecimal edgeWeigh, Node sourceNode) {
-        BigDecimal sourceDistance = sourceNode.getPrice();        
-        if (sourceDistance.add(edgeWeigh).compareTo(evaluationNode.getPrice()) == -1 ) {
-            evaluationNode.setPrice(sourceDistance.add(edgeWeigh));
+    private static void calculateMinimumPrice(Node evaluationNode, BigDecimal edgePrice, Node sourceNode) {
+        BigDecimal sourceDistancePrice = sourceNode.getPrice();        
+        if (sourceDistancePrice.add(edgePrice).compareTo(evaluationNode.getPrice()) == -1 ) {
+            evaluationNode.setPrice(sourceDistancePrice.add(edgePrice));
             LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
             shortestPath.add(sourceNode);
             evaluationNode.setShortestPath(shortestPath);
+            
+            System.out.println("added node: " + sourceNode);
         }
     }
 
-    private static Node getLowestDistanceNode(Set<Node> unsettledNodes) {
+    private static Node getCheapestNode(Set<Node> unsettledNodes) {
         Node lowestPriceNode = null;
         BigDecimal lowestPrice = BigDecimal.valueOf(Integer.MAX_VALUE);
         for (Node node : unsettledNodes) {        	

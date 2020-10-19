@@ -1,6 +1,6 @@
 package me.dusanov.fa.dijkstra;
 
-import static me.dusanov.fa.dijkstra.Dijkstra.calculateShortestPathFromSource;
+import static me.dusanov.fa.dijkstra.Dijkstra.calculateCheapestPathFromSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -40,16 +40,16 @@ public class DijkstraTests {
 		});
 		
 		try {
-			Graph bgGraph = calculateShortestPathFromSource(graph, nodes.get("Belgrade"));
+			Graph bgGraph = calculateCheapestPathFromSource(graph, nodes.get("Belgrade"));
 			
 			assertNotNull(bgGraph);
 			assertEquals(900.20d,  bgGraph.getNodes().get("Santiago").getPrice().doubleValue());		
 			
-			System.out.println("Shortest path from Belgrado to Santiago: \n" + bgGraph.getNodes().get("Santiago").getShortestPath()); 
+			System.out.println("Cheapest path from Belgrado to Santiago: \n" + bgGraph.getNodes().get("Santiago").getShortestPath()); 
 			System.out.println("Price: " + bgGraph.getNodes().get("Santiago").getPrice());
 
 			assertEquals(1020.20d,  bgGraph.getNodes().get("Punta Arenas").getPrice().doubleValue());
-			System.out.println("Shortest path from Belgrado to Punta Arenas: \n" + bgGraph.getNodes().get("Punta Arenas").getShortestPath()); 
+			System.out.println("Cheapest path from Belgrado to Punta Arenas: \n" + bgGraph.getNodes().get("Punta Arenas").getShortestPath()); 
 			System.out.println("Price: " + bgGraph.getNodes().get("Punta Arenas").getPrice());
 			
 		} catch (Exception e) {

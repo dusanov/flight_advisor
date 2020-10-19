@@ -28,10 +28,10 @@ insert into Airport (airport_id,name,city,country,iata,icao,latitude,longitude,a
 	(1382,'Charles de Gaulle International Airport','Paris','France','CDG','LFPG',49.012798,2.55,392,1,'E',null,'airport','OurAirports');
 	
 insert into Route (id,airline,airline_id,source_airport,source_airport_id,destination_airport,destination_airport_id,codeshare,stops,equipment,price) values
-	(1 ,'4U',2548,'BEG',1739,'BUD',1489,'',0,319,120.00),
-	(2 ,'4U',2548,'BEG',1739,'CDG',1382,'',0,319,200.20),
-	(3 ,'4U',2548,'BUD',1489,'CDG',1382,'',0,319,140.00),
-	(4 ,'4U',2548,'BUD',1489,'SCBQ',2643,'',0,319,900.00),
-	(5 ,'4U',2548,'CDG',1382,'SCBQ',2643,'',0,319,700.00),
-	(6 ,'4U',2548,'SCBQ',2643,'PUQ',2647,'',0,319,120.00),
-	(7 ,'4U',2548,'BEG',1739,'PUQ',2647,'',0,319,1220.00);
+	(1 ,'4U',2548,'BEG',1739,'BUD',1489,'Y',0,319,120.00),
+	(2 ,'4U',2548,'BEG',1739,'CDG',1382,'Y',0,319,200.20),
+	(3 ,'4U',2548,'BUD',1489,'CDG',1382,'Y',0,319,140.00),
+	(4 ,'4U',2548,'BUD',1489,'SCBQ',2643,'Y',0,319,900.00),
+	(5 ,'4U',2548,'CDG',1382,'SCBQ',2643,'Y',0,319,700.00),
+	(6 ,'4U',2548,'SCBQ',2643,'PUQ',2647,'Y',0,319,120.00),
+	(7 ,'4U',2548,'BEG',1739,'PUQ',2647,'Y',0,319,1220.00);
