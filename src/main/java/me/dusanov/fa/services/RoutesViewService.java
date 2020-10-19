@@ -25,6 +25,9 @@ public class RoutesViewService {
 	
 	public SearchResult findTheCheapestRoute(String source, String destination) {
 
+		//TODO: cache this
+		//TODO: add search time
+		//TODO: validate  if there are any results
 		Graph calcGraph = calculateCheapestPathFromSource(graph.getGraph(), graph.getNodes().get(source));
 		BigDecimal totalPrice = calcGraph.getNodes().get(destination).getPrice();
 		

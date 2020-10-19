@@ -1,14 +1,13 @@
 package me.dusanov.fa.repos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Optional;
-
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import me.dusanov.fa.domains.User;
+import me.dusanov.fa.domains.AppUser;
 
 @SpringBootTest
 public class UserRepoTests {
@@ -17,11 +16,12 @@ public class UserRepoTests {
 	private UserRepo userRepo;
 	
 	@Test
+	@Transactional
 	public void testFindByUsername() {
-		//User admin = userRepo.findByUsername("admin");
-		Optional<User> admin = userRepo.findById("admin");
-		assertEquals(true, admin.isPresent());
-		assertEquals("admin", admin.get().getLastName());
-		assertEquals(true, admin.get().isAdmin());
+		AppUser user = new AppUser(null,"admin","admin","admin","admin");
+		userRepo.save(user);
+		AppUser admin = userRepo.findByUsername("admin");
+		assertNotNull(admin);
+		assertEquals("admin", admin.getLastName());
 	}
 }
