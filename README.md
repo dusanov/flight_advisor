@@ -37,7 +37,7 @@ curl --location --request POST 'http://localhost:8080/login' \
     "password":"dusan"
 }'
 ```
-###__admin__<br />
+### __admin__<br />
 3. add cities<br />
 ```bash
 curl --location --request POST 'http://localhost:8080/api/cities/' \
@@ -62,7 +62,7 @@ curl --location --request POST 'http://localhost:8080/api/routes/import' \
 --header 'Authorization: <token_from_login>' \
 --form 'file=@/<path_to>/flight_advisor_exercise/flight-advisor/datasets/routes.dat'
 ```
-###__user__<br />
+### __user__<br />
 5. get all the cities (x comments)<br />
 ```bash
 curl --location --request GET 'http://localhost:8080/api/cities/' \
