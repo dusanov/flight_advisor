@@ -15,6 +15,7 @@ or to run precompiled build (no maven)
 java -jar dist/flight-advisor-0.0.1-SNAPSHOT.jar
 ```
 ## Endpoints and flow
+**There are two harcoded users: __admin/admin__ and __user/user__**
 
 *Swagger can be found* [here](http://localhost:8080/swagger-ui/)
 
