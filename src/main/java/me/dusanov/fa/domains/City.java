@@ -1,10 +1,12 @@
 package me.dusanov.fa.domains;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -29,5 +31,6 @@ public class City {
 	@NotBlank(message="City description can not be empty")
 	private String description;
 	//@OneToMany(mappedBy="")
-	private List<Comment> comments;
+	@Transient
+	private List<Comment> comments = new ArrayList<Comment>();
 }

@@ -22,19 +22,19 @@ public class CityServiceTests {
 	@Transactional
 	public void testAddingACity() {
 		//this should actually fail the validation on empty description field (or any other)
-		City city = cityService.addCity(new City(null,"city of angels","neverland","not empty desc"));
+		City city = cityService.addCity(new City(null,"city of angels","neverland","not empty desc",null));
 		assertNotNull(city);
 		assertNotNull(city.getId());
 	}
 	
 	@Test
 	public void testGetAllCities() {
-		assertEquals(7,cityService.getAll().size());
+		assertEquals(8,cityService.getAll(1).size());
 	}
 	
 	@Test
 	public void testSearchForACityByName() {
-		List<City> result = cityService.searchByCityName("sad");
+		List<City> result = cityService.searchByCityName("sad",1);
 		assertNotNull(result);
 		assertEquals(1, result.size());
 		assertEquals("novi sad", result.get(0).getName());

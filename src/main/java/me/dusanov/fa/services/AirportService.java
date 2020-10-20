@@ -47,14 +47,14 @@ public class AirportService {
 	
 	public ImportResult<Airport> importAirports(List<Airport> airports, boolean validateCity){
 		
-		// we wont be deleting airoprts first, since dataset has id and H2 is smart enough
+		// we wont be deleting airports first, since dataset has id and H2 is smart enough
 		
 		int count = 0;
 		List<Airport> failed = new ArrayList<Airport>();
 		
 		for (Airport airport : airports) {
 			if (validateCity) {
-				if ( !airport.getCity().equals("") && cityService.searchByCityName(airport.getCity()).size() > 0) {
+				if ( !airport.getCity().equals("") && cityService.searchByCityName(airport.getCity(),1).size() > 0) {
 					airportRepo.save(airport);
 					count++;
 				} else 

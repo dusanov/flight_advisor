@@ -53,7 +53,7 @@ public class RouteService {
 					continue;
 				} else {				
 					//source airport found, check if the city exists
-					if (!srcAirport.getCity().equals("") && cityService.searchByCityName(srcAirport.getCity()).size() > 0) {
+					if (!srcAirport.getCity().equals("") && cityService.searchByCityName(srcAirport.getCity(),1).size() > 0) {
 						//source airport and the city are ok, let's check destination
 						Airport destAirport = airportService.searchByIata(route.getDestinationAirport());
 						if (destAirport==null) destAirport = airportService.searchByIcao(route.getDestinationAirport());
@@ -62,7 +62,7 @@ public class RouteService {
 							continue;
 						} else {
 							//destination airport found, check the city
-							if (!destAirport.getCity().equals("") && cityService.searchByCityName(destAirport.getCity()).size() > 0) {
+							if (!destAirport.getCity().equals("") && cityService.searchByCityName(destAirport.getCity(),1).size() > 0) {
 								//TODO: generate price
 								routeRepo.save(route);
 								count++;

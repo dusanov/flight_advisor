@@ -15,6 +15,6 @@ public class CityRepoTests {
 	@Test
 	public void testCityCount() {
 		long numOfCities = cityRepo.count();
-		assertEquals(7L,numOfCities);
+		assertEquals(8L,numOfCities);
 	}
 }
