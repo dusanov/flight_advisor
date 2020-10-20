@@ -38,7 +38,29 @@ curl --location --request POST 'http://localhost:8080/login' \
 ```
 3. admin<br />
 &nbsp;&nbsp;4. add cities<br />
+```bash
+curl --location --request POST 'http://localhost:8080/api/cities/' \
+--header 'Authorization: <token_from_login>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name":"Mumbai",
+    "country":"India",
+    "description":"City in India"
+}'
+```
 &nbsp;&nbsp;5. import data<br />
+```bash
+curl --location --request POST 'http://localhost:8080/api/airports/import' \
+--header 'Content-Type: multipart/form-data' \
+--header 'Authorization: <token_from_login>' \
+--form 'file=@/<path_to>/flight-advisor/datasets/airports.dat'
+```
+```bash
+curl --location --request POST 'http://localhost:8080/api/routes/import' \
+--header 'Content-Type: multipart/form-data' \
+--header 'Authorization: <token_from_login>' \
+--form 'file=@/<path_to>/flight_advisor_exercise/flight-advisor/datasets/routes.dat'
+```
 6. user<br />
 &nbsp;&nbsp;7. get all the cities (x comments)<br />
 ```bash
