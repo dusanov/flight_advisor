@@ -1,16 +1,12 @@
 package me.dusanov.fa.controllers;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -37,7 +33,7 @@ public class CommentController {
 	public ResponseEntity<Comment> addComment(@Valid @RequestBody Comment comment,
 												Principal principal) {
 		
-		//don't allow creating someone else's comment (not even admin)
+		//don't allow creating someone else's comment
 		comment.setUsername(principal.getName());
 		
 		return ResponseEntity.ok(commentService.addComment(comment));
@@ -49,11 +45,8 @@ public class CommentController {
 												 @Valid @RequestBody Comment comment,
 												 Principal principal) throws Exception {
 		
-		//don't allow updating someone else's comment (except admin)
-		if (!principal.getName().equalsIgnoreCase("admin") && 
-			!comment.getUsername().equalsIgnoreCase(principal.getName()))
-			throw new Exception("You are allowed to modify only your own comments");
-		
+		//don't allow updating someone else's comment
+		comment.setUsername(principal.getName());
 		comment.setId(commentId);
 		return ResponseEntity.ok(commentService.updateComment(comment));
 	}
@@ -64,6 +57,7 @@ public class CommentController {
 												Principal principal) throws Exception {
 		
 		//don't allow deletion of someone else's comment (except admin)
+		if (comment.getUsername() == null) throw new Exception("You must set your username in request body");
 		if (!principal.getName().equalsIgnoreCase("admin") && 
 				!comment.getUsername().equalsIgnoreCase(principal.getName()))
 				throw new Exception("You are allowed to delete only your own comments");
@@ -71,16 +65,9 @@ public class CommentController {
 		return ResponseEntity.ok(commentService.deleteComment(comment));
 	}
 	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Map<String, String> handleValidationExceptions(
-	  MethodArgumentNotValidException ex) {
-	    Map<String, String> errors = new HashMap<>();
-	    ex.getBindingResult().getAllErrors().forEach((error) -> {
-	        String fieldName = ((FieldError) error).getField();
-	        String errorMessage = error.getDefaultMessage();
-	        errors.put(fieldName, errorMessage);
-	    });
-	    return errors;
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> handleException(Exception e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+								.body(e.getLocalizedMessage());
 	}
 }

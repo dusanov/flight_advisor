@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -54,7 +55,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         Date exp = new Date(System.currentTimeMillis() + SecurityConfiguration.EXPIRATION_TIME);
         Key key = Keys.hmacShaKeyFor(SecurityConfiguration.KEY.getBytes());
-        Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getAuthorities().toArray()[0].toString().replace("[","").replace("]",""));
+        Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getUsername());
+        claims.put("scopes", ((User) auth.getPrincipal()).getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
         String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS512).setExpiration(exp).compact();
         res.addHeader("token", token);
     }

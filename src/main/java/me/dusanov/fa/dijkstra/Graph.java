@@ -6,11 +6,14 @@ import java.util.Map;
 
 import lombok.Data;
 
-@Data
-//@Getter @Setter @RequiredArgsConstructor @ToString 
+@Data 
 public class Graph {
 
     private Map<String, Node> nodes = new HashMap<>();
+    
+	public void addNode(String city,Node node) {
+        nodes.put(city, node);
+    }
     
     public Graph deepCopy () {
     	  Graph graphCopy = new Graph();
@@ -22,9 +25,4 @@ public class Graph {
     	  });
     	  return graphCopy;
     	}
-    
-
-	public void addNode(String city,Node node) {
-        nodes.put(city, node);
-    }
 }

@@ -1,8 +1,8 @@
 package me.dusanov.fa.configs;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -49,9 +49,11 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                     .parseClaimsJws(token)
                     .getBody();
             if (user != null) {
-            	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                authorities.add(new SimpleGrantedAuthority(user.getSubject().toUpperCase()));
-                return new UsernamePasswordAuthenticationToken(user, null, authorities);
+            	 List<String> scopes = user.get("scopes", List.class);
+                 List<GrantedAuthority> authorities = scopes.stream()
+                         .map(authority -> new SimpleGrantedAuthority(authority))
+                         .collect(Collectors.toList());
+                return new UsernamePasswordAuthenticationToken(user.getSubject(), null, authorities);
             }else{
                 return  null;
             }

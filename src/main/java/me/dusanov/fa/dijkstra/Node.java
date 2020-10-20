@@ -7,10 +7,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-//@Data
-//@Getter @Setter @RequiredArgsConstructor @ToString
-//No lombok here, screws up hashset and bombs StackOverflow
-//hashmap ToString actually does it
 public class Node {
 
     private String name;
@@ -25,7 +21,7 @@ public class Node {
         Node copy = isomorphism.get(this);
 
         if (copy == null) {
-            copy = new Node(this.name);//copy.getName() -> this.name?
+            copy = new Node(this.name);
             isomorphism.put(this, copy);
             
             Iterator<Entry<Node, BigDecimal>> it = destinationNodes.entrySet().iterator();
@@ -84,8 +80,8 @@ public class Node {
 		builder.append(cheapestPath);
 		builder.append(", price=");
 		builder.append(price);
-		builder.append(", destinationNodes=");
-		builder.append(destinationNodes);
+//		builder.append(", destinationNodes=");
+//		builder.append(destinationNodes);
 		builder.append("]");
 		return builder.toString();
 	}
