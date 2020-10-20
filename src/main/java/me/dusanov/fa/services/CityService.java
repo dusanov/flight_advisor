@@ -19,17 +19,28 @@ import me.dusanov.fa.repos.CityRepo;
 public class CityService {
 	
 	private final CityRepo cityRepo;
+	private final CommentService commentService;
 	
 	public City addCity(@Valid City city) {
 		return cityRepo.save(city);
 	}
 	
-	public List<City> getAll(){
-		return (List<City>) cityRepo.findAll();
+	public List<City> getAll(int limitComments){
+		
+		List<City> cities = (List<City>) cityRepo.findAll();
+		for (City city : cities)
+				city.setComments(commentService.getComments(city.getId(), limitComments));
+		
+		return cities;
 	}
 	
-	public List<City> searchByCityName(String cityName){
-		return cityRepo.findByNameContaining(cityName);
+	public List<City> searchByCityName(String cityName, int limitComments){
+		
+		List<City> cities = cityRepo.findByNameContaining(cityName);
+		for (City city : cities)
+			city.setComments(commentService.getComments(city.getId(), limitComments));
+		
+		return cities; 
 	}
 
 }

@@ -18,14 +18,6 @@ import lombok.NoArgsConstructor;
 public class Comment {
 	@Id @GeneratedValue
 	private Long id;
-	/*
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="username")
-	private User user;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
-	private City city;
-	*/
 	private String username;
 	private Long cityId;
 	private String comment;

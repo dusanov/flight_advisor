@@ -1,5 +1,7 @@
 package me.dusanov.fa.domains;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,5 +29,5 @@ public class City {
 	@NotBlank(message="City description can not be empty")
 	private String description;
 	//@OneToMany(mappedBy="")
-	//private List<Comment> comments;
+	private List<Comment> comments;
 }

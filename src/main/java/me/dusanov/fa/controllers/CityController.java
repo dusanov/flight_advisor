@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,14 +40,14 @@ public class CityController {
 	
 	@GetMapping
 	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
-	public List<City> getAll(){
-		return cityService.getAll();
+	public List<City> getAll(@RequestParam(defaultValue = "0", required = false) int limitComments){
+		return cityService.getAll(limitComments);
 	}
 	
 	@GetMapping("/search/{cityName}")
 	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
-	public List<City> search(@PathVariable String cityName){
-		return cityService.searchByCityName(cityName);
+	public List<City> search(@PathVariable String cityName,@RequestParam(defaultValue = "0", required = false) int limitComments){
+		return cityService.searchByCityName(cityName,limitComments);
 	}	
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

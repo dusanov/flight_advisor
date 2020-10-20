@@ -36,11 +36,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
-
         UsernamePasswordAuthenticationToken authentication = authenticate(request);
-
-        System.out.println(authentication);
-        
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
     }
@@ -52,22 +48,14 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                     .setSigningKey(Keys.hmacShaKeyFor(SecurityConfiguration.KEY.getBytes()))
                     .parseClaimsJws(token)
                     .getBody();
-
             if (user != null) {
-            	
-            	
             	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
                 authorities.add(new SimpleGrantedAuthority(user.getSubject().toUpperCase()));
-            	
-                System.out.println(user);
-                
-                return new UsernamePasswordAuthenticationToken(user, null, /*new ArrayList<>()*/   authorities);
+                return new UsernamePasswordAuthenticationToken(user, null, authorities);
             }else{
                 return  null;
             }
-
         }
         return null;
     }
-
 }

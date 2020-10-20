@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
 		        .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-		        //.antMatchers(H2_CONSOLE).permitAll()
+		        .antMatchers(H2_CONSOLE).permitAll()
 		        .antMatchers("/v2/api-docs", 
 		        			 "/swagger-resources/configuration/ui", 
 		        			 "/swagger-resources", 
@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new AuthenticationFilter(authenticationManager()))
                 .addFilter(new AuthorizationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                /*.and().headers().frameOptions().disable()*/;
+                .and().headers().frameOptions().disable();
     }
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

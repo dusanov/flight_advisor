@@ -57,7 +57,5 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getAuthorities().toArray()[0].toString().replace("[","").replace("]",""));
         String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS512).setExpiration(exp).compact();
         res.addHeader("token", token);
-
-
     }
 }
