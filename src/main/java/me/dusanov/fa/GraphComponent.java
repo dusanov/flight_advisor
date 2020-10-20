@@ -20,7 +20,7 @@ public class GraphComponent implements ApplicationRunner  {
 	@Autowired private AirportService airportService;
 	@Autowired private RoutesViewService routesViewService;
 	
-	@Getter private Graph graph = new Graph();
+			private Graph graph = new Graph();
 	@Getter private Map<String, Node> nodes = new HashMap<String, Node>();
 	
 	@Override
@@ -28,19 +28,19 @@ public class GraphComponent implements ApplicationRunner  {
 		loadNodes();
 		loadGraph();
 	}
+	
+	public Graph getADeepCopyOfGraph() {
+		return graph.deepCopy();
+	}
 
 	public void loadNodes() {
-		
 		//create nodes
 		airportService.getAll().forEach( airport -> {
 			nodes.put(airport.getCity(), new Node(airport.getCity()));
 		});
-		
-		System.out.println("Loaded nodes:\n" + this.nodes);
 	}	
 	
 	public void loadGraph() {
-
 		nodes.forEach((city,node) -> {
 			routesViewService.getAllBySource(city).forEach(routeView -> {
 				node.addDestination(nodes.get(routeView.getDestination()), routeView.getPrice());
@@ -48,8 +48,6 @@ public class GraphComponent implements ApplicationRunner  {
 			//add built node to graph
 			graph.addNode(city,node);
 		});
-		
-		System.out.println("Loaded graph:\n" + this.graph);
 	}
 
 }

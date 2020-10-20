@@ -39,9 +39,9 @@ public class Dijkstra {
         BigDecimal sourceDistancePrice = sourceNode.getPrice();        
         if (sourceDistancePrice.add(edgePrice).compareTo(evaluationNode.getPrice()) == -1 ) {
             evaluationNode.setPrice(sourceDistancePrice.add(edgePrice));
-            LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getCheapestPath());
-            shortestPath.add(sourceNode);
-            evaluationNode.setCheapestPath(shortestPath);
+            LinkedList<Node> cheapestPath = new LinkedList<>(sourceNode.getCheapestPath());
+            cheapestPath.add(sourceNode);
+            evaluationNode.setCheapestPath(cheapestPath);
         }
     }
 

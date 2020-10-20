@@ -13,9 +13,9 @@ public class SearchResult {
 	private double totalPrice;
 	private List<SearchResultItem> routes = new ArrayList<SearchResultItem>();
 	
-	public void addRoute(SearchResultItem item) {
-		routes.add(item);
-	}
+	public SearchResult() {}
+	public SearchResult(String description) {this.description = description;}
 	
+	public void addRoute(SearchResultItem item) { routes.add(item); }
 	
 }

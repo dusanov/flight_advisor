@@ -2,8 +2,10 @@ package me.dusanov.fa.dijkstra;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 
 //@Data
 //@Getter @Setter @RequiredArgsConstructor @ToString
@@ -16,10 +18,27 @@ public class Node {
     private BigDecimal price = BigDecimal.valueOf(Integer.MAX_VALUE);
     private Map<Node, BigDecimal> destinationNodes = new HashMap<>();
 
-    public Node(String name) {
-        this.name = name;
-    }
+    public Node(String name) { this.name = name; }
+    public Node() {}
 
+	public Node deepCopy(Map<Node, Node> isomorphism) {
+        Node copy = isomorphism.get(this);
+
+        if (copy == null) {
+            copy = new Node(this.name);//copy.getName() -> this.name?
+            isomorphism.put(this, copy);
+            
+            Iterator<Entry<Node, BigDecimal>> it = destinationNodes.entrySet().iterator();
+            
+            while (it.hasNext()){
+            	Map.Entry<Node,BigDecimal> pair = (Map.Entry<Node,BigDecimal>)it.next();
+            	copy.destinationNodes.put(pair.getKey().deepCopy(isomorphism),pair.getValue());
+            }        
+        }
+
+        return copy;
+    }
+    
     public void addDestination(Node destination, BigDecimal price) {
         destinationNodes.put(destination, price);
     }
@@ -65,8 +84,8 @@ public class Node {
 		builder.append(cheapestPath);
 		builder.append(", price=");
 		builder.append(price);
-	//	builder.append(", destinationNodes=");
-	//	builder.append(destinationNodes);
+		builder.append(", destinationNodes=");
+		builder.append(destinationNodes);
 		builder.append("]");
 		return builder.toString();
 	}

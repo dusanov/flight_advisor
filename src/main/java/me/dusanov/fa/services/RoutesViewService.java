@@ -21,35 +21,35 @@ import me.dusanov.fa.repos.RoutesViewRepo;
 public class RoutesViewService {
 	
 	private final RoutesViewRepo routesViewRepo;
-	private final GraphComponent graph;
+	private final GraphComponent graphComponent;
 	
 	public SearchResult findTheCheapestRoute(String source, String destination) {
 
 		//TODO: cache this
 		//TODO: add search time
-		//TODO: validate  if there are any results
-		Graph calcGraph = calculateCheapestPathFromSource(graph.getGraph(), graph.getNodes().get(source));
-		BigDecimal totalPrice = calcGraph.getNodes().get(destination).getPrice();
-		
-		SearchResult result = new SearchResult();
+		Graph graph = graphComponent.getADeepCopyOfGraph();
+		graph = calculateCheapestPathFromSource(graph, graph.getNodes().get(source));		
+		BigDecimal totalPrice = graph.getNodes().get(destination).getPrice();
+		List<Node> nodes = graph.getNodes().get(destination).getCheapestPath();
+		int size = nodes.size();
+		if (size == 0) return new SearchResult(String.format("no results for %s to %s", source,destination));
 		
 		int index = 0;
-		List<Node> nodes = calcGraph.getNodes().get(destination).getCheapestPath();
-		int size = nodes.size();
 		double sumLength = 0;
+		SearchResult result = new SearchResult();
 		while (index+1 < size) {
 			Node srcNode = nodes.get(index);
 			Node destNode = nodes.get(index+1);			
 			RoutesView routeView = this.getRoute(srcNode.getName(), destNode.getName());
-			double length = this.computeDistance(routeView);
+			double length = RoutesViewService.computeDistance(routeView);
 			sumLength += length;
 			SearchResultItem item = new SearchResultItem(routeView.getSource(),routeView.getDestination(),routeView.getPrice().doubleValue(),length);
 			result.addRoute(item);
 			index++;
 		}
 		
-		RoutesView lastRouteView = this.getRoute(nodes.get(size-1).getName(), calcGraph.getNodes().get(destination).getName());
-		double length = this.computeDistance(lastRouteView);
+		RoutesView lastRouteView = this.getRoute(nodes.get(size-1).getName(), graph.getNodes().get(destination).getName());
+		double length = RoutesViewService.computeDistance(lastRouteView);
 		sumLength += length;
 		SearchResultItem item = new SearchResultItem(lastRouteView.getSource(),lastRouteView.getDestination(),lastRouteView.getPrice().doubleValue(),length);
 		result.addRoute(item);
@@ -57,7 +57,7 @@ public class RoutesViewService {
 		result.setTotalLength(sumLength);
 		result.setTotalPrice(totalPrice.doubleValue());
 		result.setDescription(String.format(
-				"Search result for cheapest path from %s, to %s. Total cost: %.2f usd. Total distance: %.2f km", source,destination,totalPrice.doubleValue(),sumLength));
+				"Search result for cheapest path from %s to %s. Total cost: %.2f usd. Total distance: %.2f km", source,destination,totalPrice.doubleValue(),sumLength));
 		
 		return result;
 	}
@@ -75,7 +75,7 @@ public class RoutesViewService {
 	}
 	
 	//Haversine formula
-    public double computeDistance(RoutesView route) {
+    public static double computeDistance(RoutesView route) {
     	
         double R = 6372.8; // Earth's Radius, in kilometers
  
