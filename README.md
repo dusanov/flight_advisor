@@ -37,8 +37,8 @@ curl --location --request POST 'http://localhost:8080/login' \
     "password":"dusan"
 }'
 ```
-3. admin<br />
-&nbsp;&nbsp;4. add cities<br />
+__admin__<br />
+3. add cities<br />
 ```bash
 curl --location --request POST 'http://localhost:8080/api/cities/' \
 --header 'Authorization: <token_from_login>' \
@@ -49,7 +49,7 @@ curl --location --request POST 'http://localhost:8080/api/cities/' \
     "description":"City in India"
 }'
 ```
-&nbsp;&nbsp;5. import data<br />
+4. import airports and routes<br />
 ```bash
 curl --location --request POST 'http://localhost:8080/api/airports/import' \
 --header 'Content-Type: multipart/form-data' \
@@ -62,18 +62,18 @@ curl --location --request POST 'http://localhost:8080/api/routes/import' \
 --header 'Authorization: <token_from_login>' \
 --form 'file=@/<path_to>/flight_advisor_exercise/flight-advisor/datasets/routes.dat'
 ```
-6. user<br />
-&nbsp;&nbsp;7. get all the cities (x comments)<br />
+__user__<br />
+5. get all the cities (x comments)<br />
 ```bash
 curl --location --request GET 'http://localhost:8080/api/cities/' \
 --header 'Authorization: <token_from_login>'
 ```
-&nbsp;&nbsp;8. search for the city name (x comments)<br />
+6. search for the city name (x comments)<br />
 ```bash
 curl --location --request GET 'http://localhost:8080/api/cities/search/San?limit=2' \
 --header 'Authorization: <token_from_login>'
 ```
-&nbsp;&nbsp;9. add/edit/delete a comment for the city<br />
+7. add/edit/delete a comment for the city<br />
 ```bash
 curl --location --request POST 'http://localhost:8080/api/comments/' \
 --header 'Authorization: <token_from_login>' \
@@ -99,7 +99,7 @@ curl --location --request DELETE 'http://localhost:8080/api/comments/2' \
     "comment":""
 }'
 ```
-&nbsp;&nbsp;10. search for the cheapest path from A to B <br />
+8. search for the cheapest path from A to B <br />
 ```bash
 curl --location --request GET 'http://localhost:8080/api/routes/search/Belgrade/Punta Arenas' \
 --header 'Authorization: <token_from_auth>'
