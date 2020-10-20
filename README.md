@@ -19,16 +19,67 @@ java -jar dist/flight-advisor-0.0.1-SNAPSHOT.jar
 *Swagger can be found* [here](http://localhost:8080/swagger-ui/)
 
 1. sign up<br />
+```bash
+curl --location --request POST 'http://localhost:8080/users/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username":"dusan",
+    "password":"dusan"
+}'
+```
 2. login<br />
+```bashcurl --location --request POST 'http://localhost:8080/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username":"dusan",
+    "password":"dusan"
+}'
+```
 3. admin<br />
 &nbsp;&nbsp;4. add cities<br />
 &nbsp;&nbsp;5. import data<br />
 6. user<br />
 &nbsp;&nbsp;7. get all the cities (x comments)<br />
+```bash
+curl --location --request GET 'http://localhost:8080/api/cities/' \
+--header 'Authorization: <token_from_login>'
+```
 &nbsp;&nbsp;8. search for the city name (x comments)<br />
-&nbsp;&nbsp;9. add/edit/delete(just a flag) a comment for the city (created / modified date)<br />
-&nbsp;&nbsp;10. search for the cheapest path from A to B (multiple routes) <br />
-
+```bash
+curl --location --request GET 'http://localhost:8080/api/cities/search/San?limit=2' \
+--header 'Authorization: <token_from_login>'
+```
+&nbsp;&nbsp;9. add/edit/delete a comment for the city<br />
+```bash
+curl --location --request POST 'http://localhost:8080/api/comments/' \
+--header 'Authorization: <token_from_login>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "cityId":"1382",
+    "comment":"my comment on Paris"
+}'
+```
+```bash
+curl --location --request PATCH 'http://localhost:8080/api/comments/2' \
+--header 'Authorization: <token_from_login>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "comment":"The loveliness of Paris seems somehow sadly gay"
+}'
+```
+```bash
+curl --location --request DELETE 'http://localhost:8080/api/comments/2' \
+--header 'Authorization: <token_from_login>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "comment":""
+}'
+```
+&nbsp;&nbsp;10. search for the cheapest path from A to B <br />
+```bash
+curl --location --request GET 'http://localhost:8080/api/routes/search/Belgrade/Punta Arenas' \
+--header 'Authorization: <token_from_auth>'
+```
 ## Example datasets 
 
 ### Airports
