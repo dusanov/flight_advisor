@@ -28,7 +28,8 @@ curl --location --request POST 'http://localhost:8080/users/signup' \
 }'
 ```
 2. login<br />
-```bashcurl --location --request POST 'http://localhost:8080/login' \
+```bash
+curl --location --request POST 'http://localhost:8080/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "username":"dusan",
