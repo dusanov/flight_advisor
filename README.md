@@ -1,6 +1,6 @@
 # Flight Advisor
 
-Test project for my new pozzition.<br />
+Demo project for my new pozzition.<br />
 `dist` folder contains latest build (if i didn't forget to copy the jar)<br />
 `dataset` folder contains datasets for airports and routes to import
 
@@ -136,3 +136,6 @@ airline,airlineId,sourceAirport,sourceAirportId,destinationAirport,destinationAi
 ```
 ### City validation request param
 validation during import of airports and routes on the existance of the city record can be turned off by passing query param `validateCity=false`
+
+### Licensing and disclaimer
+This project uses datasets for airports and routes from [OpenFlights](https://openflights.org) and is published under __GNU General Public License v3.0__
