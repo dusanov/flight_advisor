@@ -2,6 +2,7 @@ package me.dusanov.fa.configs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -36,6 +39,8 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
         UsernamePasswordAuthenticationToken authentication = authenticate(request);
 
+        System.out.println(authentication);
+        
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
     }
@@ -49,7 +54,14 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                     .getBody();
 
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            	
+            	
+            	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+                authorities.add(new SimpleGrantedAuthority(user.getSubject().toUpperCase()));
+            	
+                System.out.println(user);
+                
+                return new UsernamePasswordAuthenticationToken(user, null, /*new ArrayList<>()*/   authorities);
             }else{
                 return  null;
             }

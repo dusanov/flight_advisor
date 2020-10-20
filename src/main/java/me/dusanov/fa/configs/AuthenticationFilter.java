@@ -38,11 +38,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
             AppUser applicationUser = new ObjectMapper().readValue(req.getInputStream(), AppUser.class);
-
-            return authenticationManager.authenticate(
+            Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(applicationUser.getUsername(),
                             applicationUser.getPassword(), new ArrayList<>())
             );
+            return authentication;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -54,7 +54,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         Date exp = new Date(System.currentTimeMillis() + SecurityConfiguration.EXPIRATION_TIME);
         Key key = Keys.hmacShaKeyFor(SecurityConfiguration.KEY.getBytes());
-        Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getUsername());
+        Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getAuthorities().toArray()[0].toString().replace("[","").replace("]",""));
         String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS512).setExpiration(exp).compact();
         res.addHeader("token", token);
 

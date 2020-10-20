@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -31,16 +32,19 @@ public class CityController {
 	private final CityService cityService;
 	
 	@PostMapping
+	@RolesAllowed("ROLE_ADMIN")
 	public ResponseEntity<City> addNewCity(@Valid @RequestBody City city) {
 		return ResponseEntity.ok(cityService.addCity(city));
 	}	
 	
 	@GetMapping
+	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 	public List<City> getAll(){
 		return cityService.getAll();
 	}
 	
 	@GetMapping("/search/{cityName}")
+	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 	public List<City> search(@PathVariable String cityName){
 		return cityService.searchByCityName(cityName);
 	}	

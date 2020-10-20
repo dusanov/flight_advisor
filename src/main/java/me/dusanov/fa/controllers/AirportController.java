@@ -2,6 +2,7 @@ package me.dusanov.fa.controllers;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.springframework.core.io.Resource;
@@ -34,16 +35,19 @@ public class AirportController {
 	private final CsvMapperService csvMapper;
 	
 	@PostMapping
+	@RolesAllowed("ROLE_ADMIN")
 	public ResponseEntity<Airport> addNewAirport(@Valid @RequestBody Airport airport) {
 		return ResponseEntity.ok(airportService.addAirport(airport));
 	}	
 	
 	@GetMapping
+	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 	public List<Airport> getAll(){
 		return airportService.getAll();
 	}
 	
 	@PostMapping("/import")
+	@RolesAllowed("ROLE_ADMIN")
 	public ImportResult<Airport> uploadFile(@RequestParam("file") MultipartFile file,
 											@RequestParam(defaultValue = "true", required = false) boolean validateCity) 
 	throws Exception {
@@ -55,6 +59,7 @@ public class AirportController {
 	}	
 	
 	@GetMapping("/search/{airportName}")
+	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 	public List<Airport> search(@PathVariable String airportName){
 		return airportService.searchByAirportName(airportName);
 	}	

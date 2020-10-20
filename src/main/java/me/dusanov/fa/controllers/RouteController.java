@@ -43,19 +43,19 @@ public class RouteController {
 	private final RoutesViewService routesViewService;
 	
 	@PostMapping
-	@RolesAllowed("ADMIN")
+	@RolesAllowed("ROLE_ADMIN")
 	public ResponseEntity<Route> addNewRoute(@Valid @RequestBody Route route) {
 		return ResponseEntity.ok(routeService.addRoute(route));
 	}	
 	
 	@GetMapping
-	@RolesAllowed({"ADMIN","USER"})
+	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 	public List<Route> getAll(){
 		return routeService.getAll();
 	}
 	
 	@PostMapping("/import")
-	@RolesAllowed("ADMIN")
+	@RolesAllowed("ROLE_ADMIN")
 	public ImportResult<Route> uploadFile(@RequestParam("file") MultipartFile file,
 			@RequestParam(defaultValue = "true", required = false) boolean validateCity) 
 	throws Exception {
@@ -67,7 +67,7 @@ public class RouteController {
 	}	
 	
 	@GetMapping("/search/{source}/{destination}")
-	@RolesAllowed("ADMIN")
+	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 	public SearchResult search(@PathVariable String source, @PathVariable String destination){
 		return routesViewService.findTheCheapestRoute(source,destination);
 	}	
