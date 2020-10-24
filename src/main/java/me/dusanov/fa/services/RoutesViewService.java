@@ -40,36 +40,20 @@ public class RoutesViewService {
 		SearchResult result = new SearchResult();
 		while (index+1 < size) {
 			Node srcNode = nodes.get(index);
-			Node destNode = nodes.get(index+1);			
-			//TODO: there are many same routes/diff airline, we are taking first one only, for the last route too
-			//RoutesView routeView = this.getRoute(srcNode.getAirport().getName(), destNode.getAirport().getName()).get(0);
-//			if (null != routeView) {			
-				double length = RoutesViewService.computeDistance(srcNode.getAirport(),destNode.getAirport());
-				sumLength += length;
-				BigDecimal routePrice = srcNode.getDestinationPrice(destNode);// routeView.getPrice();
-				SearchResultItem item = new SearchResultItem(srcNode.getAirport().getName(),destNode.getAirport().getName(),((null!=routePrice)?routePrice.doubleValue():0),length);
-				result.addRoute(item);
-//			} else {
-//				SearchResultItem item = new SearchResultItem("missed src: " + srcNode.getAirport().getName(),"missed dest: " + destNode.getAirport().getName(),0,0);
-//				result.addRoute(item);
-//			}
-//			System.out.println("route: " + SearchResultItem);
+			Node destNode = nodes.get(index+1);						
+			double length = RoutesViewService.computeDistance(srcNode.getAirport(),destNode.getAirport());
+			sumLength += length;
+			BigDecimal routePrice = srcNode.getDestinationPrice(destNode);// routeView.getPrice();
+			SearchResultItem item = new SearchResultItem(srcNode.getAirport().getName(),destNode.getAirport().getName(),((null!=routePrice)?routePrice.doubleValue():0),length);
+			result.addRoute(item);
 			index++;
 		}
 		
-//		RoutesView lastRouteView = this.getRoute(nodes.get(size-1).getAirport().getName(), graph.getNodes().get(destination).getAirport().getName()).get(0);
-//		if (null!=lastRouteView) {
-			BigDecimal routePrice = nodes.get(size-1).getDestinationPrice(graph.getNodes().get(destination));
-			double length = RoutesViewService.computeDistance(nodes.get(size-1).getAirport(),graph.getNodes().get(destination).getAirport());
-			sumLength += length;
-			SearchResultItem item = new SearchResultItem(nodes.get(size-1).getAirport().getName(),graph.getNodes().get(destination).getAirport().getName(),((null!=routePrice)?routePrice.doubleValue():0),length);
-			result.addRoute(item);
-//		}else {
-//			SearchResultItem item = new SearchResultItem("missed src: " + nodes.get(size-1).getAirport().getName(),"missed dest: " + graph.getNodes().get(destination).getAirport().getName(),0,0);
-//			result.addRoute(item);
-//		}
-//		System.out.println("last route: " + lastRouteView);
-		
+		double length = RoutesViewService.computeDistance(nodes.get(size-1).getAirport(),graph.getNodes().get(destination).getAirport());
+		sumLength += length;
+		BigDecimal routePrice = nodes.get(size-1).getDestinationPrice(graph.getNodes().get(destination));
+		SearchResultItem item = new SearchResultItem(nodes.get(size-1).getAirport().getName(),graph.getNodes().get(destination).getAirport().getName(),((null!=routePrice)?routePrice.doubleValue():0),length);
+		result.addRoute(item);
 		result.setTotalLength(sumLength);
 		result.setTotalPrice(totalPrice.doubleValue());
 		result.setDescription(String.format(
@@ -92,12 +76,10 @@ public class RoutesViewService {
 	
 	//Haversine formula
     public static double computeDistance(RoutesView route) {
-    	
     	return computeDistance(route.getSourceLatitude(), route.getSourceLongitude(), route.getDestinationLatitude(), route.getDestinationLongitude());
     }
     
     public static double computeDistance(Airport source, Airport destination) {
-    	
     	return computeDistance(source.getLatitude(), source.getLongitude(), destination.getLatitude(), destination.getLongitude());
     }
     

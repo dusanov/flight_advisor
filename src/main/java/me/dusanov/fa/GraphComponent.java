@@ -47,22 +47,10 @@ public class GraphComponent implements ApplicationRunner  {
 	
 	public void loadGraph(boolean genPrice) {
 		nodes.forEach((city,node) -> {
-//			AtomicInteger printcounter = new AtomicInteger(0);
-//			AtomicInteger counter = new AtomicInteger(0);
-//			Instant cityNow = Instant.now();				
 			routesViewService.getAllBySource(city).forEach(routeView -> {
-//				printcounter.addAndGet(1);
-//				counter.addAndGet(1);
-//				if (printcounter.equals(100)) {
-//					printcounter.set(0);
-//					System.out.println("at: " + counter);
-//				}				
 				if (genPrice && null == routeView.getPrice()) routeView.setPrice( BigDecimal.valueOf(RoutesViewService.computeDistance(routeView)).divide(BigDecimal.valueOf(10)) );
 				node.addDestination(nodes.get(routeView.getDestination()), routeView.getPrice());
 			});
-//			System.out.println(String.format("It took %s ms to load destinations for the %s", Instant.now().toEpochMilli() - cityNow.toEpochMilli(),city));
-			
-			//add built node to graph
 			graph.addNode(city,node);
 		});
 	}
