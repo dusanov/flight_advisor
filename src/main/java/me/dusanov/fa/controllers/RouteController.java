@@ -1,5 +1,6 @@
 package me.dusanov.fa.controllers;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import me.dusanov.fa.GraphComponent;
 import me.dusanov.fa.domains.Route;
 import me.dusanov.fa.dtos.ImportResult;
 import me.dusanov.fa.dtos.SearchResult;
@@ -41,6 +43,7 @@ public class RouteController {
 	private final FileSystemStorageService storageService;
 	private final CsvMapperService csvMapper;
 	private final RoutesViewService routesViewService;
+	private final GraphComponent graph;
 	
 	@PostMapping
 	@RolesAllowed("ROLE_ADMIN")
@@ -57,13 +60,27 @@ public class RouteController {
 	@PostMapping("/import")
 	@RolesAllowed("ROLE_ADMIN")
 	public ImportResult<Route> uploadFile(@RequestParam("file") MultipartFile file,
-			@RequestParam(defaultValue = "true", required = false) boolean validateCity) 
+			@RequestParam(defaultValue = "true", required = false) boolean validateAirport,
+			@RequestParam(defaultValue = "false", required = false) boolean generatePrice)
 	throws Exception {
+		
+		long startTime = System.currentTimeMillis();
 		
 		Resource fileResource = storageService.loadAsResource(storageService.store(file));
 		List<Route> routes = csvMapper.loadObjectList(Route.class, fileResource);
 		
-		return routeService.importRoutes(routes, validateCity);
+		ImportResult<Route> result = routeService.importRoutes(routes, validateAirport, generatePrice);
+		
+		System.out.println(String.format("== import of routes (%s) done, it tooke: %s ms to load, about to generate graph",routes.size(),  System.currentTimeMillis()- startTime));
+		
+		long loadGStart = System.currentTimeMillis();
+		//reload graph
+		if (generatePrice) graph.loadGraph(true);
+		else graph.loadGraph();
+
+		System.out.println(String.format("graph loaded: %s in %s ms", graph.getNodes().size(),System.currentTimeMillis()-loadGStart));
+		
+		return result;
 	}	
 	
 	@GetMapping("/search/{source}/{destination}")

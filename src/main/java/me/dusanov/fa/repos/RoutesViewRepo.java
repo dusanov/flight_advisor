@@ -10,5 +10,5 @@ import me.dusanov.fa.domains.RoutesView;
 @Repository
 public interface RoutesViewRepo extends CrudRepository<RoutesView, Long> {
 	List<RoutesView> findBySource(String source);
-	RoutesView findBySourceAndDestination(String source,String destination);
+	List<RoutesView> findBySourceAndDestination(String source,String destination);
 }

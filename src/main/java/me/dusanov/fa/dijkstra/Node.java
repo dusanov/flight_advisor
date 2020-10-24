@@ -7,21 +7,23 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import me.dusanov.fa.domains.Airport;
+
 public class Node {
 
-    private String name;
+    //private String name;
+	private Airport airport;
     private LinkedList<Node> cheapestPath = new LinkedList<>();
     private BigDecimal price = BigDecimal.valueOf(Integer.MAX_VALUE);
-    private Map<Node, BigDecimal> destinationNodes = new HashMap<>();
 
-    public Node(String name) { this.name = name; }
+    public Node(Airport airport) { this.airport = airport; }
     public Node() {}
 
 	public Node deepCopy(Map<Node, Node> isomorphism) {
         Node copy = isomorphism.get(this);
 
         if (copy == null) {
-            copy = new Node(this.name);
+            copy = new Node(this.airport);
             isomorphism.put(this, copy);
             
             Iterator<Entry<Node, BigDecimal>> it = destinationNodes.entrySet().iterator();
@@ -38,18 +40,23 @@ public class Node {
     public void addDestination(Node destination, BigDecimal price) {
         destinationNodes.put(destination, price);
     }
+    
+    public BigDecimal getDestinationPrice(Node destination) {
+    	return destinationNodes.get(destination);
+    }
 
-	public String getName() {
-		return name;
+	public Airport getAirport() {
+		return airport;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setAirport(Airport airport) {
+		this.airport = airport;
 	}
 
 	public LinkedList<Node> getCheapestPath() {
 		return cheapestPath;
 	}
+	private Map<Node, BigDecimal> destinationNodes = new HashMap<>();
 
 	public void setCheapestPath(LinkedList<Node> shortestPath) {
 		this.cheapestPath = shortestPath;
@@ -74,8 +81,8 @@ public class Node {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Node [name=");
-		builder.append(name);
+		builder.append("Node [Airport=");
+		builder.append(airport);
 		builder.append(", cheapestPath=");
 		builder.append(cheapestPath);
 		builder.append(", price=");

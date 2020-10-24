@@ -29,7 +29,7 @@ public class DijkstraTests {
 		
 		//create nodes
 		airportService.getAll().forEach( airport -> {
-			nodes.put(airport.getCity(), new Node(airport.getCity()));
+			nodes.put(airport.getCity(), new Node(airport));
 		});
 
 		nodes.forEach((city,node) -> {

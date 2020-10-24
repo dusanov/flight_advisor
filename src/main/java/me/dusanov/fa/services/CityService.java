@@ -25,6 +25,8 @@ public class CityService {
 		return cityRepo.save(city);
 	}
 	
+	public void deleteAll() {cityRepo.deleteAll();}
+	
 	public List<City> getAll(int limitComments){
 		
 		List<City> cities = (List<City>) cityRepo.findAll();
@@ -41,6 +43,10 @@ public class CityService {
 			city.setComments(commentService.getComments(city.getId(), limitComments));
 		
 		return cities; 
+	}
+	
+	public List<City> searchByCityNameAndCountry(String cityName, String countryName){
+		return cityRepo.findByNameAndCountry(cityName, countryName);
 	}
 
 }
