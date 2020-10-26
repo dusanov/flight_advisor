@@ -74,8 +74,8 @@ public class RouteController {
 		
 		long loadGStart = System.currentTimeMillis();
 		//reload graph
-		if (generatePrice) graph.loadGraph(true);
-		else graph.loadGraph();
+		if (generatePrice) graph.loadGraph(routes,true,result);
+		else graph.loadGraph(routes,false,result);
 
 		System.out.println(String.format("graph loaded: %s in %s ms", graph.getNodes().size(),System.currentTimeMillis()-loadGStart));
 		
@@ -85,7 +85,8 @@ public class RouteController {
 	@GetMapping("/search/{source}/{destination}")
 	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 	public SearchResult search(@PathVariable String source, @PathVariable String destination){
-		return routesViewService.findTheCheapestRoute(source,destination);
+		SearchResult result = routesViewService.findTheCheapestRoute(source,destination);
+		return result;
 	}	
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

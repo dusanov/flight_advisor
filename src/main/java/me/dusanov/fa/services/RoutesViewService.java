@@ -5,6 +5,8 @@ import static me.dusanov.fa.dijkstra.Dijkstra.calculateCheapestPathFromSource;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -38,21 +40,40 @@ public class RoutesViewService {
 		int index = 0;
 		double sumLength = 0;
 		SearchResult result = new SearchResult();
+		//geoJson
+		JSONObject lineString = new JSONObject();
+		lineString.put("type", "LineString");
+		JSONArray coordinates = new JSONArray();
 		while (index+1 < size) {
 			Node srcNode = nodes.get(index);
 			Node destNode = nodes.get(index+1);						
 			double length = RoutesViewService.computeDistance(srcNode.getAirport(),destNode.getAirport());
 			sumLength += length;
-			BigDecimal routePrice = srcNode.getDestinationPrice(destNode);// routeView.getPrice();
+			BigDecimal routePrice = srcNode.getDestinationPrice(destNode);
 			SearchResultItem item = new SearchResultItem(srcNode.getAirport().getName(),destNode.getAirport().getName(),((null!=routePrice)?routePrice.doubleValue():0),length);
 			result.addRoute(item);
+			
+			JSONObject src = srcNode.toGeoJsonString();
+			coordinates.put(src.get("coordinates"));			
+			
 			index++;
 		}
 		
 		double length = RoutesViewService.computeDistance(nodes.get(size-1).getAirport(),graph.getNodes().get(destination).getAirport());
 		sumLength += length;
 		BigDecimal routePrice = nodes.get(size-1).getDestinationPrice(graph.getNodes().get(destination));
-		SearchResultItem item = new SearchResultItem(nodes.get(size-1).getAirport().getName(),graph.getNodes().get(destination).getAirport().getName(),((null!=routePrice)?routePrice.doubleValue():0),length);
+		SearchResultItem item = new SearchResultItem(nodes.get(size-1).getAirport().getName(),
+													graph.getNodes().get(destination).getAirport().getName(),
+													((null!=routePrice)?routePrice.doubleValue():0),
+													length);
+		
+		JSONObject src = nodes.get(size-1).toGeoJsonString();
+		JSONObject dest = graph.getNodes().get(destination).toGeoJsonString();
+		coordinates.put(src.get("coordinates"));
+		coordinates.put(dest.get("coordinates"));				
+		lineString.put("coordinates", coordinates);
+		result.setGeoJson(lineString.toMap());
+		
 		result.addRoute(item);
 		result.setTotalLength(sumLength);
 		result.setTotalPrice(totalPrice.doubleValue());

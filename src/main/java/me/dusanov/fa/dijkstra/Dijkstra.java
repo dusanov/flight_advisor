@@ -22,7 +22,7 @@ public class Dijkstra {
         while (unsettledNodes.size() != 0) {
             Node currentNode = getCheapestNode(unsettledNodes);
             unsettledNodes.remove(currentNode);            
-            for (Entry<Node, BigDecimal> destinationPair : currentNode.getAdjacentNodes().entrySet()) {
+            for (Entry<Node, BigDecimal> destinationPair : currentNode.getDestinationNodes().entrySet()) {
                 Node destinationNode = destinationPair.getKey();
                 BigDecimal price = destinationPair.getValue();
                 if (!settledNodes.contains(destinationNode)) {

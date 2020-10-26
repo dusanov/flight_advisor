@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import me.dusanov.fa.domains.Airport;
 
 public class Node {
@@ -70,12 +73,12 @@ public class Node {
 		this.price = price;
 	}
 
-	public Map<Node, BigDecimal> getAdjacentNodes() {
+	public Map<Node, BigDecimal> getDestinationNodes() {
 		return destinationNodes;
 	}
 
-	public void setAdjacentNodes(Map<Node, BigDecimal> adjacentNodes) {
-		this.destinationNodes = adjacentNodes;
+	public void setDestinationNodes(Map<Node, BigDecimal> destinationNodes) {
+		this.destinationNodes = destinationNodes;
 	}
 
 	@Override
@@ -91,5 +94,16 @@ public class Node {
 //		builder.append(destinationNodes);
 		builder.append("]");
 		return builder.toString();
+	}
+	
+	public JSONObject toGeoJsonString() {
+		
+	    JSONObject point = new JSONObject();
+	    point.put("type", "Point");
+        // construct a JSONArray from a string; can also use an array or list
+        JSONArray coord = new JSONArray("["+airport.getLongitude()+","+airport.getLatitude()+"]");
+        point.put("coordinates", coord);
+
+		return point;
 	}
 }
