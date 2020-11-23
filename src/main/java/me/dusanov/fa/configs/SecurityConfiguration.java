@@ -1,5 +1,7 @@
 package me.dusanov.fa.configs;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -53,10 +55,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().headers().frameOptions().disable();
     }
+	
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        CorsConfiguration corsConfig = new CorsConfiguration().applyPermitDefaultValues();
+        /*corsConfig.addAllowedOrigin("http://localhost:4200");
+        corsConfig.addExposedHeader("Access-Control-Allow-Origin");
+        corsConfig.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
+        corsConfig.setAllowedHeaders(Arrays.asList("*"));*/
+        source.registerCorsConfiguration("/**", corsConfig);
+        
         return source;
     }
 

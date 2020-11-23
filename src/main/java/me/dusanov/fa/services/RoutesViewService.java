@@ -31,12 +31,12 @@ public class RoutesViewService {
 		//TODO: cache this
 		//TODO: add search time
 		Graph graph = graphComponent.getADeepCopyOfGraph();
-		graph = calculateCheapestPathFromSource(graph, graph.getNodes().get(source));		
+		if (graph.getNodes().get(source) == null) return new SearchResult(String.format("no results for %s to %s", source,destination));
+		graph = calculateCheapestPathFromSource(graph, graph.getNodes().get(source));
+		if (graph.getNodes().get(destination) == null) return new SearchResult(String.format("no results for %s to %s", source,destination));
 		BigDecimal totalPrice = graph.getNodes().get(destination).getPrice();
 		List<Node> nodes = graph.getNodes().get(destination).getCheapestPath();
 		int size = nodes.size();
-		if (size == 0) return new SearchResult(String.format("no results for %s to %s", source,destination));
-		
 		int index = 0;
 		double sumLength = 0;
 		SearchResult result = new SearchResult();
@@ -72,6 +72,9 @@ public class RoutesViewService {
 		coordinates.put(src.get("coordinates"));
 		coordinates.put(dest.get("coordinates"));				
 		lineString.put("coordinates", coordinates);
+		//JSONObject feature = new JSONObject();
+		//feature.put("type", "Feature");
+		//feature.put("geometry", lineString);
 		result.setGeoJson(lineString.toMap());
 		
 		result.addRoute(item);

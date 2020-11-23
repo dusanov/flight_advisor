@@ -36,6 +36,7 @@ import me.dusanov.fa.services.RoutesViewService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/routes")
+//@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class RouteController {
 
 	private final RouteService routeService;
@@ -70,14 +71,14 @@ public class RouteController {
 		
 		ImportResult<Route> result = routeService.importRoutes(routes, validateAirport, generatePrice);
 		
-		System.out.println(String.format("== import of routes (%s) done, it tooke: %s ms to load, about to generate graph",routes.size(),  System.currentTimeMillis()- startTime));
+		System.out.println(String.format("== import of routes (%s) done, it took: %s ms to load, about to generate graph",routes.size(),  System.currentTimeMillis()- startTime));
 		
 		long loadGStart = System.currentTimeMillis();
 		//reload graph
 		if (generatePrice) graph.loadGraph(routes,true,result);
 		else graph.loadGraph(routes,false,result);
 
-		System.out.println(String.format("graph loaded: %s in %s ms", graph.getNodes().size(),System.currentTimeMillis()-loadGStart));
+		System.out.println(String.format("graph loaded: %s, failed rotes: %s in %s ms", routes.size(),result.getFailed().size(),System.currentTimeMillis()-loadGStart));
 		
 		return result;
 	}	

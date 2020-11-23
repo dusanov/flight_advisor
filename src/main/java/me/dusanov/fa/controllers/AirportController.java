@@ -62,7 +62,7 @@ public class AirportController {
 	@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 	public List<Airport> search(@PathVariable String airportName){
 		return airportService.searchByAirportName(airportName);
-	}	
+	}
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleException(Exception e) {
