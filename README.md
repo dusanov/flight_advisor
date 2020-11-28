@@ -1,6 +1,6 @@
 # Flight Advisor
 
-Demo project for my new pozzition.<br />
+Demo project for my training.<br />
 `dist` folder contains latest build (if i didn't forget to copy the jar)<br />
 `dataset` folder contains datasets for airports and routes to import
 
